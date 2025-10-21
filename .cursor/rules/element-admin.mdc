@@ -1,0 +1,37 @@
+核心框架
+Vue.js 2.7.14 - 前端框架
+Vue Router 3.6.5 - 路由管理
+Vuex 3.6.2 - 状态管理
+UI 组件库
+Element UI 2.15.14 - 主要的 UI 组件库
+构建工具
+Rspack - 现代化的构建工具（替代 Webpack）
+@rspack/cli 1.5.8
+@rspack/core 1.5.8
+@rspack/dev-server 1.1.4
+图表库
+ECharts 6.0.0 - 数据可视化图表库
+Vue-ECharts 6.7.3 - Vue 的 ECharts 封装
+工具库
+Axios 1.12.2 - HTTP 请求库
+Lodash 4.17.21 - JavaScript 工具库
+Day.js 1.11.18 - 日期处理库
+QRCode 1.5.4 - 二维码生成
+Marked 16.4.0 - Markdown 解析
+Clipboard 2.0.11 - 剪贴板操作
+Screenfull 5.2.0 - 全屏功能
+SortableJS 1.15.6 - 拖拽排序
+JSEncrypt 3.5.4 - RSA 加密
+开发工具
+MockJS 1.1.0 - 数据模拟
+NProgress 0.2.0 - 页面加载进度条
+Sass 1.32.13 - CSS 预处理器
+代码质量
+ESLint 6.8.0 - 代码检查
+Prettier 2.8.8 - 代码格式化
+Stylelint 16.25.0 - 样式检查
+其他特性
+Vab-Icon - 自定义图标库（本地文件）
+Layouts - 布局系统（本地文件）
+Vue-loader 15.9.8 - Vue 单文件组件加载器
+这是一个基于 Vue 2 + Element UI 的现代化后台管理系统，使用了 Rspack 作为构建工具，集成了丰富的功能组件和开发工具。

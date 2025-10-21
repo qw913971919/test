@@ -1,20 +1,10 @@
 <template>
   <div v-if="routerView" class="app-main-container">
-    <vab-github-corner />
     <transition mode="out-in" name="fade-transform">
       <keep-alive :include="cachedRoutes" :max="keepAliveMaxNum">
         <router-view :key="key" class="app-main-height" />
       </keep-alive>
     </transition>
-    <footer v-show="footerCopyright" class="footer-copyright">
-      Copyright
-      <vab-icon :icon="['fas', 'copyright']"></vab-icon>
-      vue-admin-better {{ fullYear }}
-      <p>
-        Powered by
-        <a href="https://vuejs-core.cn/store" target="_blank" style="color: #4d8af0; text-decoration: none">Shop Vite 模板市场</a>
-      </p>
-    </footer>
   </div>
 </template>
 
@@ -27,7 +17,6 @@
     data() {
       return {
         show: false,
-        fullYear: new Date().getFullYear(),
         copyright,
         title,
         keepAliveMaxNum,

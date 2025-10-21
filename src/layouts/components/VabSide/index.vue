@@ -12,7 +12,7 @@
       :unique-opened="uniqueOpened"
       mode="vertical"
     >
-      <template v-for="route in routes">
+      <template v-for="route in menus">
         <vab-side-item :full-path="route.path" :item="route" />
       </template>
     </el-menu>
@@ -28,12 +28,17 @@
     data() {
       return {
         uniqueOpened,
+        menuRoute: null,
       }
     },
+    created() {},
+    methods: {},
     computed: {
       ...mapGetters({
         collapse: 'settings/collapse',
+        //因为不是自动获取列表，这里注释掉列表写死
         routes: 'routes/routes',
+        menus: 'routes/menus',
       }),
       defaultOpens() {
         if (this.collapse) {
@@ -69,12 +74,12 @@
 
   .side-container {
     position: fixed;
-    top: 0;
+    top: 50px;
     bottom: 0;
     left: 0;
     z-index: $base-z-index;
     width: $base-left-menu-width;
-    height: 100vh;
+    height: calc(100vh+50px);
     overflow: hidden;
     background: $base-menu-background;
     box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);

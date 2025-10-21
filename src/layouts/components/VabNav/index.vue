@@ -1,13 +1,18 @@
 <template>
   <div class="nav-container">
-    <el-row :gutter="15">
-      <el-col :lg="12" :md="12" :sm="12" :xl="12" :xs="4">
+    <el-row type="flex" justify="space-between">
+      <el-col>
         <div class="left-panel">
           <vab-icon :icon="['fas', collapse ? 'indent' : 'outdent']" class="fold-unfold" @click="handleCollapse" />
           <vab-breadcrumb class="hidden-xs-only" />
         </div>
       </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xl="12" :xs="20">
+      <el-col class="col-nav">
+        <div @click="navigatorTo('/resource')">电子资源库</div>
+        <div @click="navigatorTo('/workstation')">审批工作台</div>
+        <div @click="navigatorTo('/seeting')">系统配置</div>
+      </el-col>
+      <el-col>
         <div class="right-panel">
           <vab-error-log />
           <vab-full-screen @refresh="refreshRoute" />
@@ -30,12 +35,13 @@
 
   export default {
     name: 'VabNav',
-    data() {
-      return {
-        pulse: false,
-        timeOutID: null,
-      }
-    },
+  data() {
+    return {
+      pulse: false,
+      timeOutID: null,
+      isNavigating: false,
+    }
+  },
     computed: {
       ...mapGetters({
         collapse: 'settings/collapse',
@@ -47,6 +53,7 @@
     methods: {
       ...mapActions({
         changeCollapse: 'settings/changeCollapse',
+        setMenus: 'routes/setMenus',
       }),
       handleCollapse() {
         this.changeCollapse()
@@ -58,6 +65,31 @@
           this.pulse = false
         }, 1000)
       },
+      async navigatorTo(url) {
+        // 防止重复点击
+        if (this.isNavigating) {
+          return
+        }
+        
+        // 如果当前已经在目标路由，不进行跳转
+        if (this.$route.path === url) {
+          return
+        }
+        
+        this.isNavigating = true
+        
+        try {
+          await this.setMenus(url)
+          await this.$router.push(url)
+        } catch (error) {
+          console.error('路由跳转失败:', error)
+        } finally {
+          // 延迟重置状态，防止快速连续点击
+          setTimeout(() => {
+            this.isNavigating = false
+          }, 300)
+        }
+      },
     },
 
     beforeDestroy() {
@@ -68,7 +100,7 @@
 
 <style lang="scss" scoped>
   .nav-container {
-    position: relative;
+    position: fixed;
     height: $base-nav-bar-height;
     padding-right: $base-padding;
     padding-left: $base-padding;
@@ -79,7 +111,12 @@
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 60px;
+    box-sizing: border-box;
+    z-index: 999;
     &::before {
       content: '';
       position: absolute;
@@ -191,6 +228,14 @@
       justify-content: flex-end;
       height: $base-nav-bar-height;
       gap: 12px;
+    }
+    .col-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      div:hover {
+        color: #007bff;
+      }
     }
   }
 </style>

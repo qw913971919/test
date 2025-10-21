@@ -28,6 +28,8 @@ router.beforeResolve(async (to, from, next) => {
     } else {
       const hasPermissions = store.getters['user/permissions'] && store.getters['user/permissions'].length > 0
       if (hasPermissions) {
+        // 如果已经有权限，也需要初始化菜单
+        store.dispatch('routes/initMenus', to.path)
         next()
       } else {
         try {
@@ -49,6 +51,8 @@ router.beforeResolve(async (to, from, next) => {
           accessRoutes.forEach((item) => {
             router.addRoute(item)
           })
+          // 初始化菜单
+          store.dispatch('routes/initMenus', to.path)
           next({ ...to, replace: true })
         } catch {
           await store.dispatch('user/resetAccessToken')
@@ -71,6 +75,10 @@ router.beforeResolve(async (to, from, next) => {
   }
   document.title = getPageTitle(to.meta.title)
 })
-router.afterEach(() => {
+router.afterEach((to) => {
   if (progressBar) VabProgress.done()
+  // 路由变化后更新菜单，但排除登录页面
+  if (to.path !== '/login' && to.path !== '/register') {
+    store.dispatch('routes/initMenus', to.path)
+  }
 })

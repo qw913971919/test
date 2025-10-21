@@ -40,6 +40,11 @@
         default: '',
       },
     },
+    data() {
+      return {
+        isNavigating: false,
+      }
+    },
     methods: {
       handlePath(routePath) {
         if (isExternal(routePath)) {
@@ -50,33 +55,49 @@
         }
         return path.resolve(this.fullPath, routePath)
       },
-      handleLink() {
+      async handleLink() {
+        // 防止重复点击
+        if (this.isNavigating) {
+          return
+        }
+
         const routePath = this.routeChildren.path
         const target = this.routeChildren.meta.target
+        const targetPath = path.resolve(this.fullPath, routePath)
 
-        if (target === '_blank') {
-          if (isExternal(routePath)) {
-            window.open(routePath)
-          } else if (isExternal(this.fullPath)) {
-            window.open(this.fullPath)
-          } else if (
-            this.$route.path !== path.resolve(this.fullPath, routePath)
-          ) {
-            let routeData = this.$router.resolve(
-              path.resolve(this.fullPath, routePath)
-            )
-            window.open(routeData.href)
+        // 如果当前已经在目标路由，不进行跳转
+        if (this.$route.path === targetPath) {
+          return
+        }
+
+        this.isNavigating = true
+
+        try {
+          if (target === '_blank') {
+            if (isExternal(routePath)) {
+              window.open(routePath)
+            } else if (isExternal(this.fullPath)) {
+              window.open(this.fullPath)
+            } else {
+              let routeData = this.$router.resolve(targetPath)
+              window.open(routeData.href)
+            }
+          } else {
+            if (isExternal(routePath)) {
+              window.location.href = routePath
+            } else if (isExternal(this.fullPath)) {
+              window.location.href = this.fullPath
+            } else {
+              await this.$router.push(targetPath)
+            }
           }
-        } else {
-          if (isExternal(routePath)) {
-            window.location.href = routePath
-          } else if (isExternal(this.fullPath)) {
-            window.location.href = this.fullPath
-          } else if (
-            this.$route.path !== path.resolve(this.fullPath, routePath)
-          ) {
-            this.$router.push(path.resolve(this.fullPath, routePath))
-          }
+        } catch (error) {
+          console.error('侧边栏路由跳转失败:', error)
+        } finally {
+          // 延迟重置状态，防止快速连续点击
+          setTimeout(() => {
+            this.isNavigating = false
+          }, 300)
         }
       },
     },

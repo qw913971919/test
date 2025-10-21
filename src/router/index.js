@@ -38,226 +38,9 @@ export const constantRoutes = [
 export const asyncRoutes = [
   {
     path: '/',
-    component: Layout,
-    redirect: '/index',
-    children: [
-      {
-        path: 'index',
-        name: 'Index',
-        component: () => import('@/views/index/index'),
-        meta: {
-          title: '首页',
-          icon: 'home',
-          affix: true,
-        },
-      },
-    ],
+    redirect: '/resource',
   },
 
-  /* {
-    path: "/test",
-    component: Layout,
-    redirect: "noRedirect",
-    children: [
-      {
-        path: "test",
-        name: "Test",
-        component: () => import("@/views/test/index"),
-        meta: {
-          title: "test",
-          icon: "marker",
-          permissions: ["admin"],
-        },
-      },
-    ],
-  }, */
-
-  {
-    path: '/vab',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'Vab',
-    alwaysShow: true,
-    meta: { title: '组件', icon: 'box-open' },
-    children: [
-      {
-        path: 'permissions',
-        name: 'Permission',
-        component: () => import('@/views/vab/permissions/index'),
-        meta: {
-          title: '角色权限',
-          permissions: ['admin', 'editor'],
-        },
-      },
-      {
-        path: 'icon',
-        component: EmptyLayout,
-        redirect: 'noRedirect',
-        name: 'Icon',
-        meta: {
-          title: '图标',
-          permissions: ['admin'],
-        },
-        children: [
-          {
-            path: 'awesomeIcon',
-            name: 'AwesomeIcon',
-            component: () => import('@/views/vab/icon/index'),
-            meta: { title: '常规图标' },
-          },
-          {
-            path: 'colorfulIcon',
-            name: 'ColorfulIcon',
-            component: () => import('@/views/vab/icon/colorfulIcon'),
-            meta: { title: '多彩图标' },
-          },
-        ],
-      },
-      {
-        path: 'table',
-        component: () => import('@/views/vab/table/index'),
-        name: 'Table',
-        meta: {
-          title: '表格',
-          permissions: ['admin'],
-        },
-      },
-
-      {
-        path: 'webSocket',
-        name: 'WebSocket',
-        component: () => import('@/views/vab/webSocket/index'),
-        meta: { title: 'webSocket', permissions: ['admin'] },
-      },
-      {
-        path: 'form',
-        name: 'Form',
-        component: () => import('@/views/vab/form/index'),
-        meta: { title: '表单', permissions: ['admin'] },
-      },
-      {
-        path: 'element',
-        name: 'Element',
-        component: () => import('@/views/vab/element/index'),
-        meta: { title: '常用组件', permissions: ['admin'] },
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/vab/tree/index'),
-        meta: { title: '树', permissions: ['admin'] },
-      },
-      {
-        path: 'menu1',
-        component: () => import('@/views/vab/nested/menu1/index'),
-        name: 'Menu1',
-        alwaysShow: true,
-        meta: {
-          title: '嵌套路由 1',
-          permissions: ['admin'],
-        },
-        children: [
-          {
-            path: 'menu1-1',
-            name: 'Menu1-1',
-            alwaysShow: true,
-            meta: { title: '嵌套路由 1-1' },
-            component: () => import('@/views/vab/nested/menu1/menu1-1/index'),
-
-            children: [
-              {
-                path: 'menu1-1-1',
-                name: 'Menu1-1-1',
-                meta: { title: '嵌套路由 1-1-1' },
-                component: () => import('@/views/vab/nested/menu1/menu1-1/menu1-1-1/index'),
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: 'loading',
-        name: 'Loading',
-        component: () => import('@/views/vab/loading/index'),
-        meta: { title: 'loading', permissions: ['admin'] },
-      },
-      {
-        path: 'backToTop',
-        name: 'BackToTop',
-        component: () => import('@/views/vab/backToTop/index'),
-        meta: { title: '返回顶部', permissions: ['admin'] },
-      },
-      {
-        path: 'lodash',
-        name: 'Lodash',
-        component: () => import('@/views/vab/lodash/index'),
-        meta: { title: 'lodash', permissions: ['admin'] },
-      },
-
-      {
-        path: 'upload',
-        name: 'Upload',
-        component: () => import('@/views/vab/upload/index'),
-        meta: { title: '上传', permissions: ['admin'] },
-      },
-      {
-        path: 'log',
-        name: 'Log',
-        component: () => import('@/views/vab/errorLog/index'),
-        meta: { title: '错误日志模拟', permissions: ['admin'] },
-      },
-      {
-        path: 'external-link',
-        component: EmptyLayout,
-        redirect: 'noRedirect',
-        meta: {
-          title: '外链',
-        },
-        children: [
-          {
-            path: 'https://github.com/zxwk1998/vue-admin-better/',
-            name: 'ExternalLink',
-            meta: {
-              title: '外链',
-              target: '_blank',
-              permissions: ['admin', 'editor'],
-              badge: 'New',
-            },
-          },
-        ],
-      },
-      {
-        path: 'more',
-        name: 'More',
-        component: () => import('@/views/vab/more/index'),
-        meta: { title: '关于', permissions: ['admin'] },
-      },
-      {
-        path: 'chart',
-        name: 'Chart',
-        component: () => import('@/views/vab/chart/index'),
-        meta: { title: '图表', permissions: ['admin'] },
-      },
-      {
-        path: 'tab',
-        name: 'Tab',
-        component: () => import('@/views/vab/tab/index'),
-        meta: { title: '选项卡', permissions: ['admin'] },
-      },
-      {
-        path: 'editor',
-        name: 'Editor',
-        component: () => import('@/views/vab/editor/index'),
-        meta: { title: '编辑器', permissions: ['admin'] },
-      },
-      {
-        path: 'qrCode',
-        name: 'QrCode',
-        component: () => import('@/views/vab/qrCode/index'),
-        meta: { title: '二维码', permissions: ['admin'] },
-      },
-    ],
-  },
   {
     path: '/personnelManagement',
     component: Layout,
@@ -286,34 +69,113 @@ export const asyncRoutes = [
     ],
   },
   {
-    path: '/mall',
+    path: '/resource',
     component: Layout,
-    redirect: 'noRedirect',
-    name: 'Mall',
-    meta: {
-      title: '商城',
-      icon: 'shopping-cart',
-      permissions: ['admin'],
-    },
-
+    name: 'resource',
+    alwaysShow: true,
     children: [
       {
-        path: 'pay',
-        name: 'Pay',
-        component: () => import('@/views/mall/pay/index'),
-        meta: {
-          title: '支付',
-          noKeepAlive: true,
-        },
-        children: null,
+        path: '',
+        name: 'Resource',
+        component: () => import('@/views/resource/index'),
+        meta: { title: '电子资源库' },
+      },
+    ],
+  },
+  {
+    path: '/workstation',
+    component: Layout,
+    name: 'workstation',
+    alwaysShow: true,
+    redirect: '/workstation/create',
+    children: [
+      {
+        path: '/workstation/create',
+        name: 'create',
+        component: () => import('@/views/workstation/create/index'),
+        meta: { title: '新建审批' },
       },
       {
-        path: 'goodsList',
-        name: 'GoodsList',
-        component: () => import('@/views/mall/goodsList/index'),
-        meta: {
-          title: '商品列表',
-        },
+        path: '/workstation/online',
+        name: 'online',
+        component: () => import('@/views/workstation/online/index'),
+        meta: { title: '上线审批' },
+      },
+      {
+        path: '/workstation/offline',
+        name: 'offline',
+        component: () => import('@/views/workstation/offline/index'),
+        meta: { title: '下线审批' },
+      },
+    ],
+  },
+  {
+    path: '/seeting',
+    component: Layout,
+    name: 'seeting',
+    alwaysShow: true,
+    redirect: '/seeting/permissionOrg/userManage',
+    meta: { title: '系统配置', icon: 'cog' },
+    children: [
+      {
+        path: 'permissionOrg',
+        name: 'PermissionOrg',
+        component: EmptyLayout,
+        redirect: '/seeting/permissionOrg/userManage',
+        meta: { title: '权限与组织管理' },
+        children: [
+          {
+            path: 'userManage',
+            name: 'UserManage',
+            component: () => import('@/views/seeting/permissionOrg/userManage/index'),
+            meta: { title: '用户管理' },
+          },
+          {
+            path: 'roleManage',
+            name: 'RoleManage',
+            component: () => import('@/views/seeting/permissionOrg/roleManage/index'),
+            meta: { title: '角色管理' },
+          },
+          {
+            path: 'deptManage',
+            name: 'DeptManage',
+            component: () => import('@/views/seeting/permissionOrg/deptManage/index'),
+            meta: { title: '部门管理' },
+          },
+          {
+            path: 'territorialManagement',
+            name: 'territorialManagement',
+            component: () => import('@/views/seeting/permissionOrg/territorialManagement/index'),
+            meta: { title: '属地管理单位管理' },
+          },
+        ],
+      },
+      {
+        path: 'processConfig',
+        name: 'ProcessConfig',
+        component: EmptyLayout,
+        redirect: '/seeting/processConfig/newApprovalProcess',
+        meta: { title: '流程配置' },
+        children: [
+          {
+            path: 'newApprovalProcess',
+            name: 'NewApprovalProcess',
+            component: () => import('@/views/seeting/processConfig/newApprovalProcess/index'),
+            meta: { title: '新建审批流程' },
+          },
+          {
+            path: 'onlineApprovalProcess',
+            name: 'OnlineApprovalProcess',
+            component: () => import('@/views/seeting/processConfig/onlineApprovalProcess/index'),
+            meta: { title: '上线审批流程' },
+          },
+          {
+            path: 'offlineApprovalProcess',
+            name: 'OfflineApprovalProcess',
+            component: () => import('@/views/seeting/processConfig/offlineApprovalProcess/index'),
+            meta: { title: '下线审批流程' },
+          },
+        ],
       },
     ],
   },
@@ -339,44 +201,6 @@ export const asyncRoutes = [
     ],
   },
   {
-    path: '/store',
-    component: Layout,
-    meta: {
-      title: '',
-      icon: '',
-    },
-    children: [
-      {
-        path: 'https://vuejs-core.cn/store',
-        meta: {
-          title: '模板市场',
-          target: '_blank',
-          icon: 'mortar-pestle',
-          badge: 'Hot',
-        },
-      },
-    ],
-  },
-  {
-    path: '/external-job',
-    component: Layout,
-    meta: {
-      title: '',
-      icon: '',
-    },
-    children: [
-      {
-        path: 'https://job.vuejs-core.cn/posts',
-        meta: {
-          title: '找工作',
-          target: '_blank',
-          icon: 'horse-head',
-          badge: 'New',
-        },
-      },
-    ],
-  },
-  {
     path: '*',
     redirect: '/404',
     hidden: true,
@@ -392,7 +216,7 @@ const router = new VueRouter({
   routes: constantRoutes,
 })
 
-export function resetRouter() {
+export function resetRouter () {
   location.reload()
 }
 

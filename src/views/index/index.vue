@@ -1,19 +1,6 @@
 <template>
   <div class="index-container">
     <el-row :gutter="20">
-      <el-col :lg="24" :md="24" :sm="24" :xl="24" :xs="24">
-        <el-alert v-if="noticeList">
-          <div style="display: flex; align-items: center; justify-content: center">
-            <a href="https://github.com/zxwk1998/vue-admin-better" target="_blank">
-              <img
-                src="https://img.shields.io/github/stars/zxwk1998/vue-admin-better?style=flat-square&label=Stars&logo=github"
-                style="margin-right: 10px"
-              />
-            </a>
-            <p v-html="noticeList.notice"></p>
-          </div>
-        </el-alert>
-      </el-col>
       <el-col v-for="(item, index) in iconList" :key="index" :lg="6" :md="6" :sm="6" :xl="3" :xs="12">
         <el-card class="icon-card" shadow="never">
           <div class="icon-container" @click="handleIconClick(item)">

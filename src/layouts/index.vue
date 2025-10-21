@@ -1,5 +1,6 @@
 <template>
   <div :class="classObj" class="vue-admin-better-wrapper">
+    <vab-nav />
     <div
       v-if="'horizontal' === layout"
       :class="{
@@ -30,13 +31,8 @@
       class="layout-container-vertical"
     >
       <div v-if="device === 'mobile' && collapse === false" class="mask" @click="handleFoldSideBar" />
-      <vab-side />
-      <div :class="collapse ? 'is-collapse-main' : ''" class="vab-main">
-        <div :class="header === 'fixed' ? 'fixed-header' : ''">
-          <vab-nav />
-          <vab-tabs v-if="tabsBar === 'true' || tabsBar === true" />
-        </div>
-        <vab-ad />
+      <vab-side v-if="shouldShowSidebar" />
+      <div :class="getMainClass" class="vab-main">
         <vab-app-main />
       </div>
     </div>
@@ -70,6 +66,17 @@
           mobile: this.device === 'mobile',
         }
       },
+      shouldShowSidebar() {
+        // 电子资源库页面不显示侧边栏
+        return this.$route.path !== '/resource'
+      },
+      getMainClass() {
+        // 根据是否显示侧边栏来调整主内容区域的样式
+        if (this.$route.path === '/resource') {
+          return 'no-sidebar-main'
+        }
+        return this.collapse ? 'is-collapse-main' : ''
+      },
     },
     beforeMount() {
       window.addEventListener('resize', this.handleResize)
@@ -97,6 +104,10 @@
       } else {
         this.$store.dispatch('settings/openSideBar')
       }
+      
+      // 初始化菜单
+      this.$store.dispatch('routes/initMenus', this.$route.path)
+      
       this.$nextTick(() => {
         window.addEventListener(
           'storage',
@@ -138,7 +149,7 @@
 <style lang="scss" scoped>
   @mixin fix-header {
     position: fixed;
-    top: 0;
+    top: 50px;
     right: 0;
     left: 0;
     z-index: $base-z-index - 2;
@@ -150,7 +161,6 @@
     position: relative;
     width: 100%;
     height: 100%;
-
     .layout-container-horizontal {
       position: relative;
 
@@ -195,7 +205,6 @@
 
     .layout-container-vertical {
       position: relative;
-
       .mask {
         position: fixed;
         top: 0;
@@ -211,7 +220,7 @@
       }
 
       &.fixed {
-        padding-top: calc(#{$base-nav-bar-height} + #{$base-tabs-bar-height});
+        padding-top: calc(#{$base-nav-bar-height});
       }
 
       &.fixed.no-tabs-bar {
@@ -259,6 +268,18 @@
             .fixed-header {
               left: $base-left-menu-width-min;
               width: calc(100% - 65px);
+            }
+          }
+        }
+
+        &.no-sidebar-main {
+          margin-left: 0;
+          width: 100%;
+
+          ::v-deep {
+            .fixed-header {
+              left: 0;
+              width: 100%;
             }
           }
         }
